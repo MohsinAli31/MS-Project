@@ -1,6 +1,6 @@
 import express from "express";
-import { registerUser, loginUser, getUser, forgotPassword, resetPassword, logoutUser } from "../controllers/authController.js";
-// import { isAuthenticated } from "../middlewares/auth.js";
+import { registerUser, loginUser, getUser, forgotPassword, resetPassword, logout } from "../controllers/authController.js";
+import { isAuthenticated } from "../middlewares/authMiddleware.js";
 // import multer from "multer";
 
 const router = express.Router();
@@ -10,14 +10,14 @@ router.post("/register", registerUser);
 
 // Login a user
 router.post("/login", loginUser);
-router.get("/me", getUser);
+router.get("/me",isAuthenticated, getUser);
 router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);
 
 // Logout a user
-// router.get("/logout", isAuthenticated, logoutUser);
+router.get("/logout", isAuthenticated, logout);
+// router.get("/logout", logout);
 
 // // Get my profile
-// router.get("/profile", isAuthenticated, getUser);
 
 export default router;
